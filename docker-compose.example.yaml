@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  sweb:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sweb
+    ports:
+      - "5011:5011"
+      - "5012:5012"
+    volumes:
+      - /path/to/racksdb:/var/lib/racksdb:Z
+      - /path/to/slurm.conf:/etc/slurm/slurm.conf:Z
+      - /path/to/agent.ini:/etc/slurm-web/agent.ini:Z
+      - /path/to/gateway.ini:/etc/slurm-web/gateway.ini:Z
+      # NOTE: please copy munge.key to currect directory to build the img
+    tty: true
+    stdin_open: true
+    restart: unless-stopped

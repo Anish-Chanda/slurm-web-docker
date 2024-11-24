@@ -1,0 +1,10 @@
+model: Test Vm
+height: 2u
+width: full
+cpu:
+  sockets: 1
+  model: Intel 12700K
+  cores: 4
+ram:
+  dimm: 1
+  size: 4GB

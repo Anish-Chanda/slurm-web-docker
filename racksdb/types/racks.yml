@@ -1,0 +1,10 @@
+- id: standard
+  height: 1867mm
+  width: 600mm
+  depth: 914mm
+  slots: 42u
+- id: half
+  height: 1198mm
+  width: 600mm
+  depth: 914mm
+  slots: 24u

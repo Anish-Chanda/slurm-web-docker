@@ -1,0 +1,25 @@
+rooms:
+  - name: myroom
+    dimensions:
+      width: 14m
+      depth: 25m
+    rows:
+    - name: R1
+      position:
+        width: 3m
+        depth: 4m
+      racks:
+      - name: R1-A[01-02]
+        type: standard
+    - name: R2
+      reversed: true
+      position:
+        width: 3m
+        depth: 6m
+      racks:
+      - name: R2-A[01]
+        type: standard
+        slot: 2
+location:
+  longitude: 2.294694
+  latitude: 48.858093

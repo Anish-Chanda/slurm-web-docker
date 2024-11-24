@@ -1,0 +1,19 @@
+description: Test HPC cluster
+tags:
+- hpc
+- cluster
+layout:
+- rack: R1-A01
+  tags: [compute]
+  nodes:
+  - name: login
+    type: testvm
+    slot: 20
+- rack: R1-A02
+  tags: [compute]
+  nodes:
+  - name: compute-[1-2]
+    type: testvm
+    tags:
+      - compute
+    slot: 3
