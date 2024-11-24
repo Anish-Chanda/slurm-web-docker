@@ -46,8 +46,8 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Rackslab
 EOF
 rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-Rackslab
 
-dnf update -yq
-dnf install -yq slurm-web-agent slurm-web-gateway racksdb
+microdnf update -y
+microdnf install -y slurm-web-agent slurm-web-gateway racksdb
 /usr/libexec/slurm-web/slurm-web-gen-jwt-key
 
 

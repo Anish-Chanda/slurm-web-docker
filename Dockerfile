@@ -1,4 +1,4 @@
-FROM almalinux:9
+FROM almalinux:minimal
 
 # service override for restd
 RUN mkdir -p /etc/systemd/system/slurmrestd.service.d/
@@ -15,8 +15,10 @@ ENV SLURMRESTD_SECURITY=disable_user_check
 
 
 # Install base dependencies and munge
-RUN dnf install -y epel-release && \
-    dnf install -y munge
+RUN microdnf install -y epel-release && \
+    microdnf install -y munge && \
+    microdnf install -y hdf5 hwloc-libs libibmad libibumad freeipmi libjwt mariadb-connector-c numactl-libs http-parser && \
+    microdnf clean all
 
 # Setup munge directories and permissions
 RUN mkdir -p /etc/munge /var/run/munge /var/log/munge /run/munge && \
@@ -41,7 +43,7 @@ RUN groupadd -g 1001 slurm && \
 # Install slurm packages
 COPY slurm-24.05.2.rpm slurmrestd-24.05.2.rpm /tmp/slurm/
 # COPY slurm.conf /etc/slurm/slurm.conf
-RUN dnf install -y /tmp/slurm/*.rpm && \
+RUN rpm -ivh /tmp/slurm/*.rpm && \
     rm -f /tmp/slurm/*.rpm
 
 # Add Rackslab repository
