@@ -21,18 +21,18 @@ RUN microdnf install -y epel-release && \
     microdnf clean all
 
 # Setup munge directories and permissions
-RUN mkdir -p /etc/munge /var/run/munge /var/log/munge /run/munge && \
-    chown -R munge:munge /etc/munge /var/run/munge /var/log/munge && \
-    chown root:munge /run/munge && \
-    chmod 0700 /etc/munge && \
-    chmod 0711 /var/run/munge && \
-    chmod 0755 /run/munge && \
-    chmod 0700 /var/log/munge
+# RUN mkdir -p /etc/munge /var/run/munge /var/log/munge /run/munge && \
+#     chown -R munge:munge /etc/munge /var/run/munge /var/log/munge && \
+#     chown root:munge /run/munge && \
+#     chmod 0700 /etc/munge && \
+#     chmod 0711 /var/run/munge && \
+#     chmod 0755 /run/munge && \
+#     chmod 0700 /var/log/munge
 
-# Setup munge key
-COPY munge.key /etc/munge/munge.key
-RUN chown munge:munge /etc/munge/munge.key && \
-    chmod 0400 /etc/munge/munge.key
+# # Setup munge key
+# COPY munge.key /etc/munge/munge.key
+# RUN chown munge:munge /etc/munge/munge.key && \
+#     chmod 0400 /etc/munge/munge.key
 
 # Create slurm user with fixed UID/GID
 RUN groupadd -g 1001 slurm && \

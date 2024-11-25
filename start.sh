@@ -3,18 +3,44 @@
 
 echo "Starting Startup Script"
 
-# Create hosts file
-echo "Creating hosts file..."
-if [ ! -f "/etc/hosts.new" ]; then
-    cat > /etc/hosts.new << 'EOF'
+# figure out the login host
+if [ -f "/etc/slurm/slurm.conf" ]; then
+    # Extract the IP and hostname from SlurmctldHost line
+    SLURM_HOST_LINE=$(grep "^SlurmctldHost=" /etc/slurm/slurm.conf)
+    if [ ! -z "$SLURM_HOST_LINE" ]; then
+        # Extract hostname and IP using regex
+        SLURM_HOSTNAME=$(echo "$SLURM_HOST_LINE" | sed -n 's/SlurmctldHost=\([^(]*\)(.*/\1/p')
+        SLURM_IP=$(echo "$SLURM_HOST_LINE" | sed -n 's/.*(\([^)]*\)).*/\1/p')
+        
+        # Create hosts file with extracted values
+        echo "Creating hosts file with Slurm controller info..."
+        cat > /etc/hosts.new << EOF
 127.0.0.1 localhost
-192.168.0.98 login
+$SLURM_IP $SLURM_HOSTNAME
 ::1 localhost
 EOF
-    echo "Hosts file created successfully"
+        echo "Hosts file created successfully with $SLURM_HOSTNAME ($SLURM_IP)"
+    else
+        echo "ERROR: No SlurmctldHost found in slurm.conf"
+        exit 1
+    fi
 else
-    echo "Hosts file already exists"
+    echo "ERROR: slurm.conf not found at /etc/slurm/slurm.conf"
+    exit 1
 fi
+
+# Create hosts file
+# echo "Creating hosts file..."
+# if [ ! -f "/etc/hosts.new" ]; then
+#     cat > /etc/hosts.new << 'EOF'
+# 127.0.0.1 localhost
+# 192.168.0.98 login
+# ::1 localhost
+# EOF
+#     echo "Hosts file created successfully"
+# else
+#     echo "Hosts file already exists"
+# fi
 
 # Try to update actual hosts file
 if [ -w "/etc/hosts" ]; then
@@ -33,6 +59,31 @@ grep login /etc/hosts || echo "WARNING: login entry not found in hosts file"
 echo "Check if hosts file is created"
 cat /etc/hosts | grep login
 
+# SETUP MUNGE
+# groupmod -g 1000 munge
+# usermod -u 1000 -g munge -s /sbin/nologin munge
+cp /tmp/munge/munge.key /etc/munge/munge.key
+mkdir -p /etc/munge \
+         /var/run/munge \
+         /var/log/munge \
+         /run/munge \
+         /var/lib/munge
+chown -R munge:munge /etc/munge /var/run/munge /var/log/munge
+chown root:munge /run/munge
+chmod 0700 /etc/munge
+chmod 0711 /var/run/munge
+chmod 0755 /run/munge
+chmod 0700 /var/log/munge
+chmod 0700 /var/lib/munge
+chown munge:munge /etc/munge/munge.key
+chown -R munge:munge /etc/munge /var/run/munge /var/log/munge /var/lib/munge /run/munge
+id munge
+ls -l /etc/munge/munge.key
+chmod 0400 /etc/munge/munge.key
+
+# Start munged service as munge user
+echo "Starting munged service"
+runuser -u munge -- /usr/sbin/munged --force
 
 echo "Installing slurm web agent and agetaway"
 cat <<EOF > /etc/yum.repos.d/rackslab.repo
@@ -54,16 +105,12 @@ microdnf install -y slurm-web-agent slurm-web-gateway racksdb
 
 
 # Create and set permissions for munge directories
-mkdir -p /var/run/munge /run/munge /var/log/munge
-chown -R munge:munge /var/run/munge /run/munge /var/log/munge
-chmod 0711 /var/run/munge
-chmod 0755 /run/munge
-chmod 0700 /var/log/munge
+# mkdir -p /var/run/munge /run/munge /var/log/munge
+# chown -R munge:munge /var/run/munge /run/munge /var/log/munge
+# chmod 0711 /var/run/munge
+# chmod 0755 /run/munge
+# chmod 0700 /var/log/munge
 
-
-# Start munged service as munge user
-echo "Starting munged service"
-su -s /bin/bash munge -c "munged"
 
 # Test munge
 echo "Testing munge"
