@@ -1,0 +1,10 @@
+model: Thunder 21
+height: 2u
+width: 1/4
+cpu:
+  sockets: 2
+  cores: 32
+  model: idk2 # TODO: ask robert
+ram:
+  dimm: 16 # TODO: Ask robert
+  size: 512GB

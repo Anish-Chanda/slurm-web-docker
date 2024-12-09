@@ -4,7 +4,7 @@ services:
   sweb:
     build:
       context: .
-      containerfile: Containerfile
+      dockerfile: Containerfile
     container_name: sweb
     ports:
       - "5011:5011"

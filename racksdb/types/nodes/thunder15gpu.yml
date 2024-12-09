@@ -1,0 +1,13 @@
+model: Thunder 15 gpu
+height: 2u
+width: 1
+cpu:
+  sockets: 1
+  cores: 20
+  model: idk2 # TODO: ask robert
+ram:
+  dimm: 1 # TODO: Ask robert
+  size: 770000MB
+gpu:
+  - model: idk
+    memory: 1MB # Ask robert

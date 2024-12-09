@@ -9,7 +9,7 @@ rooms:
         width: 3m
         depth: 4m
       racks:
-      - name: R1-A[01-02]
+      - name: R1-A[01-04]
         type: standard
     - name: R2
       reversed: true

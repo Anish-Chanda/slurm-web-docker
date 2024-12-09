@@ -1,0 +1,10 @@
+model: Thunder 22
+height: 2u
+width: 1/4
+cpu:
+  sockets: 2
+  cores: 32
+  model: idk # TODO: ask robert
+ram:
+  dimm: 1 # TODO: Ask robert
+  size: 500GB

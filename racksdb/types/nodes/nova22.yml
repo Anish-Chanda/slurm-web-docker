@@ -1,0 +1,10 @@
+model: Nova 22
+height: 2u
+width: full
+cpu:
+  sockets: 2
+  cores: 18
+  model: idk2 # TODO: ask robert
+ram:
+  dimm: 1 # TODO: Ask robert
+  size: 189000MB

@@ -1,0 +1,45 @@
+description: Test HPC cluster
+tags:
+- hpc
+- cluster
+layout:
+- rack: R1-A02
+  tags: [compute, gpu]
+  nodes:
+  - name: thunder18-[1-4]
+    type: thunder18
+    tags:
+      - compute
+    slot: 32
+  - name: thunder15-gpu-1
+    type: thunder15gpu
+    tags:
+      - gpu
+    slot: 34
+  - name: thunder21-[5-6]
+    type: thunder21
+    tags:
+      - compute
+    slot: 36
+  - name: thunder22-[1-4]
+    type: thunder22
+    tags:
+      - compute
+    slot: 38
+  network:
+  - name: emceth
+    type: emceth
+    slot: 42
+    tags: [network]
+  - name: thunder eth switch dell S30
+    type: dell
+    slot: 26
+    tags: [network]
+  - name: Mellanox switch
+    type: mellanox
+    slot: 25
+    tags: [network]
+  storage:
+    - name: thunder-stor-1
+      type: thunderstor
+      slot: 30
