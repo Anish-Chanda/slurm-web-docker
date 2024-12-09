@@ -4,16 +4,17 @@ services:
   sweb:
     build:
       context: .
-      dockerfile: Containerfile
+      dockerfile: Dockerfile
     container_name: sweb
     ports:
       - "5011:5011"
       - "5012:5012"
     volumes:
-      - /mnt/c/Users/Gal1leo/Dev/new/slurm-web/slurm-web-docker/racksdb:/var/lib/racksdb:Z
-      - /mnt/c/Users/Gal1leo/Dev/new/slurm-web/slurm-web-docker/slurm.conf:/etc/slurm/slurm.conf:Z
-      - /mnt/c/Users/Gal1leo/Dev/new/slurm-web/slurm-web-docker/agent.ini:/etc/slurm-web/agent.ini:Z
-      - /mnt/c/Users/Gal1leo/Dev/new/slurm-web/slurm-web-docker/gateway.ini:/etc/slurm-web/gateway.ini:Z
-      - /mnt/c/Users/Gal1leo/Dev/new/slurm-web/slurm-web-docker/munge.key:/tmp/munge/munge.key:z,ro
+      - ./racksdb:/var/lib/racksdb:Z
+      - ./slurm.conf:/etc/slurm/slurm.conf:Z
+      - ./agent.ini:/etc/slurm-web/agent.ini:Z
+      - ./gateway.ini:/etc/slurm-web/gateway.ini:Z
+      - ./munge.key:/etc/munge/munge.key:Z
+    tty: true
+    stdin_open: true
     restart: unless-stopped
-    user: "300:1001"
