@@ -14,6 +14,10 @@ Group=slurm' > /etc/systemd/system/slurmrestd.service.d/slurm-web.conf
 ENV SLURMRESTD_SECURITY=disable_user_check
 
 
+# add slurma and munge groups and user
+RUN groupadd -fg 982 munge 
+RUN useradd -u 983 -g 982 munge
+
 # Install base dependencies and munge
 RUN microdnf install -y epel-release && \
     microdnf install -y munge && \
@@ -35,8 +39,8 @@ RUN microdnf install -y epel-release && \
 #     chmod 0400 /etc/munge/munge.key
 
 # Create slurm user with fixed UID/GID
-RUN groupadd -g 1001 slurm && \
-    useradd -u 1001 -g slurm -d /var/lib/slurm -s /sbin/nologin -c "Slurm Workload Manager" slurm && \
+RUN groupadd -g 1000 slurm && \
+    useradd -u 300 -g slurm -d /var/lib/slurm -s /sbin/nologin -c "Slurm Workload Manager" slurm && \
     mkdir -p /var/lib/slurm /etc/slurm /run/slurm && \
     chown -R slurm:slurm /var/lib/slurm /etc/slurm /run/slurm
 
