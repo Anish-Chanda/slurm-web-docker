@@ -29,19 +29,6 @@ else
     exit 1
 fi
 
-# Create hosts file
-# echo "Creating hosts file..."
-# if [ ! -f "/etc/hosts.new" ]; then
-#     cat > /etc/hosts.new << 'EOF'
-# 127.0.0.1 localhost
-# 192.168.0.98 login
-# ::1 localhost
-# EOF
-#     echo "Hosts file created successfully"
-# else
-#     echo "Hosts file already exists"
-# fi
-
 # Try to update actual hosts file
 if [ -w "/etc/hosts" ]; then
     cat /etc/hosts.new > /etc/hosts
@@ -62,7 +49,7 @@ cat /etc/hosts | grep login
 # SETUP MUNGE
 # groupmod -g 1000 munge
 # usermod -u 1000 -g munge -s /sbin/nologin munge
-cp /tmp/munge/munge.key /etc/munge/munge.key
+# cp /tmp/munge/munge.key /etc/munge/munge.key
 mkdir -p /etc/munge \
          /var/run/munge \
          /var/log/munge \
