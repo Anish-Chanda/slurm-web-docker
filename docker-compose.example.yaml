@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  sweb:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sweb
+    cap_add:
+      - SYS_ADMIN
+      - IPC_LOCK
+    ports:
+      - "5011:5011"
+      - "5012:5012"
+    volumes:
+      - /path/to/racksdb:/var/lib/racksdb:Z
+      - /path/to/slurm.conf:/etc/slurm/slurm.conf:Z
+      - /path/to/agent.ini:/etc/slurm-web/agent.ini:Z
+      - /path/to/gateway.ini:/etc/slurm-web/gateway.ini:Z
+      - /path/to/mungekey:/etc/munge/munge.key:Z
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
